@@ -10,8 +10,8 @@ const colors = {
 
 const GlobalStyles = createGlobalStyle`
     body {
-      background-color: ${colors.dirtyWhite};
-      color: ${colors.lightBlack};
+      color: ${colors.dirtyWhite};
+      background-color: ${colors.lightBlack};
       font-family: "Roboto", sans-serif;
       font-size: 16px;
       ${media.max.md`

@@ -1,12 +1,47 @@
+import React from 'react'
 import { connect } from 'react-redux'
-import { compose } from 'recompose'
+import styled from 'styled-components'
+
+import { texts } from '../../constants'
+import NewListForm from '../../components/NewListForm'
+import List from '../../components/List'
+import Tasks from '../Tasks'
+
+import { actionAddList } from './actions'
+
+const Container = styled.div`
+  display: flex;
+`
 
 const withConnect = connect(
-
+  state => ({ lists: state.lists.byId }),
+  dispatch => ({
+    addNewList: listName => dispatch(actionAddList(listName)),
+  })
 )
 
-const Lists = () => {
-
+const validateListName = value => {
+  if (!value) return texts.NewListErrorEmpty
+  if (value.length > 30) return texts.NewListErrorTooLong
+  return null
 }
 
+const Lists = withConnect(({ lists, addNewList }) => {
+  console.log(lists)
+  return (
+    <Container>
+      {Object.keys(lists).map(id => {
+        const { name, tasks } = lists[id]
+        return (
+          <List name={name} key={id}>
+            <Tasks items={tasks} listId={id} />
+          </List>
+        )
+      })}
+      <NewListForm onConfirm={addNewList} validate={validateListName} />
+    </Container>
+  )
+})
+
 export { default as ListsReducer } from './reducer'
+export default Lists

@@ -1,6 +1,3 @@
-const actions = {
-}
-
 const createAction = (type, payload) => ({ type, payload })
 
 const createActionWithError = (type, error) => ({
@@ -8,4 +5,4 @@ const createActionWithError = (type, error) => ({
   error,
 })
 
-export { actions, createAction, createActionWithError }
+export { createAction, createActionWithError }
