@@ -1,24 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
-const Title = styled.h4``
+import TaskForm from '../TaskForm'
 
-const Description = styled.p``
+import { Title, Description, Container, EditButton } from './styles'
+import { texts } from '../../constants'
 
-const Container = styled.div``
+const Task = ({ title, description = '', onUpdate, validate }) => {
+  const [editMode, setEditMode] = useState(false)
 
-const Task = ({ title, description = '' }) => (
-  <Container>
-    <Title>{title}</Title>
-    <Description>{description}</Description>
-  </Container>
-)
+  return editMode ? (
+    <TaskForm
+      onConfirm={values => onUpdate(values) && setEditMode(false)}
+      onResign={() => setEditMode(false)}
+      validate={validate}
+      initialValues={{ title, description }}
+    />
+  ) : (
+    <Container>
+      <Title>{title}</Title>
+      <Description>{description}</Description>
+      <EditButton onClick={() => setEditMode(true)}>
+        {texts.ButtonEdit}
+      </EditButton>
+    </Container>
+  )
+}
 
 Task.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string, // eslint-disable-line
   onUpdate: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
 }
 
 export default Task

@@ -1,35 +1,55 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 import useInput from '../../hooks/useInput'
 import useValidator from '../../hooks/useValidator'
+import { texts } from '../../constants'
 
-const NewListContainer = styled.div``
-
-const NewListInput = styled.input``
-const ErrorDisplay = styled.p``
-
-const ConfirmButton = styled.button``
-const DeclineButton = styled.button``
+import {
+  NewListButton,
+  ButtonsContainer,
+  NewListInput,
+  NewListContainer,
+  ErrorDisplay,
+} from './styles'
 
 const useReset = (...args) => () => {
   args.forEach(arg => arg.call())
 }
 
 const NewListForm = ({ onConfirm, validate: validateFunc }) => {
+  const [focused, setFocused] = useState(false)
   const [name, setName, resetName] = useInput('')
   const [error, validate, resetError] = useValidator(validateFunc, onConfirm)
   const reset = useReset(resetName, resetError)
 
   return (
     <NewListContainer>
-      <NewListInput type="text" value={name} onChange={setName} />
       {error && <ErrorDisplay>{error}</ErrorDisplay>}
-      <ConfirmButton onClick={() => validate(name) && reset()}>
-        Ok
-      </ConfirmButton>
-      <DeclineButton onClick={reset}>Nope</DeclineButton>
+      <NewListInput
+        type="text"
+        placeholder={texts.NewListPlaceholder}
+        value={name}
+        onChange={setName}
+        onFocus={() => setFocused(true)}
+        error={error}
+      />
+      {focused && (
+        <ButtonsContainer>
+          <NewListButton
+            onClick={() => {
+              if (validate(name)) {
+                reset()
+                setFocused(false)
+              }
+            }}>
+            {texts.ButtonOK}
+          </NewListButton>
+          <NewListButton onClick={() => reset() && setFocused(false)}>
+            {texts.ButtonDecline}
+          </NewListButton>
+        </ButtonsContainer>
+      )}
     </NewListContainer>
   )
 }

@@ -5,14 +5,15 @@ import styled from 'styled-components'
 
 import Task from '../../components/Task'
 import { texts } from '../../constants'
-import NewTaskForm from '../../components/NewTaskForm'
-import { actionAddTask } from './actions'
+import TaskForm from '../../components/TaskForm'
+import { actionAddTask, actionUpdateTask } from './actions'
 import { selectTasksFromList } from './selectors'
 
 const withConnect = connect(
   selectTasksFromList,
   (dispatch, { listId }) => ({
-    addNewTask: (title, desc) => dispatch(actionAddTask(title, desc, listId)),
+    addNewTask: values => dispatch(actionAddTask(listId, values)),
+    updateTask: (id, values) => dispatch(actionUpdateTask(id, values)),
   })
 )
 
@@ -23,12 +24,17 @@ const validateTaskTitle = value => {
 
 const Container = styled.div``
 
-const Tasks = withConnect(({ tasks, addNewTask }) => (
+const Tasks = withConnect(({ tasks, addNewTask, updateTask }) => (
   <Container>
     {tasks.map(task => (
-      <Task {...task} key={task.id} />
+      <Task
+        {...task}
+        key={task.id}
+        validate={validateTaskTitle}
+        onUpdate={values => updateTask(task.id, values)}
+      />
     ))}
-    <NewTaskForm onConfirm={addNewTask} validate={validateTaskTitle} />
+    <TaskForm onConfirm={addNewTask} validate={validateTaskTitle} />
   </Container>
 ))
 
@@ -38,4 +44,5 @@ Tasks.propTypes = {
 }
 
 export { default as TasksReducer } from './reducer'
+export { validateTaskTitle }
 export default Tasks

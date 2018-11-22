@@ -18,6 +18,20 @@ const byId = createReducer(listsInitialState, {
       [payload.id]: listInitialState(payload),
     }
   },
+  [actions.UPDATE_LIST](
+    state,
+    {
+      payload: { id, name },
+    }
+  ) {
+    return {
+      ...state,
+      [id]: {
+        ...state[id],
+        name,
+      },
+    }
+  },
   [taskActions.ADD_TASK](
     state,
     {

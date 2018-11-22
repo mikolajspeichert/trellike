@@ -1,22 +1,60 @@
-import React from 'react'
+import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import useValidator from '../../hooks/useValidator'
+import { texts } from '../../constants'
+import useInput from '../../hooks/useInput'
 
-const ListContainer = styled.div``
+import {
+  ListContainer,
+  NameContainer,
+  EditButton,
+  ErrorDisplay,
+  EditableListName,
+  ListName,
+  ConfirmEditButton,
+} from './styles'
 
-const ListName = styled.h2``
+const List = ({ name, children, validateEdit, onUpdate }) => {
+  const [editMode, setEditMode] = useState(false)
+  const [nameValue, setName] = useInput(name)
+  const [error, validate, resetError] = useValidator(validateEdit, onUpdate)
 
-const EditableListName = styled.input``
-
-const List = ({ name, children }) => (
-  <ListContainer>
-    <ListName>{name}</ListName>
-    {children}
-  </ListContainer>
-)
+  return (
+    <ListContainer>
+      {error && <ErrorDisplay>{error}</ErrorDisplay>}
+      <NameContainer>
+        {editMode ? (
+          <Fragment>
+            <EditableListName value={nameValue} onChange={setName} />
+            <ConfirmEditButton
+              onClick={() => {
+                if (validate(nameValue)) {
+                  setEditMode(false)
+                  resetError()
+                }
+              }}>
+              {texts.ButtonOK}
+            </ConfirmEditButton>
+          </Fragment>
+        ) : (
+          <ListName>
+            {name}
+            <EditButton onClick={() => setEditMode(true)}>
+              {texts.ButtonEdit}
+            </EditButton>
+          </ListName>
+        )}
+      </NameContainer>
+      {children}
+    </ListContainer>
+  )
+}
 
 List.propTypes = {
   children: PropTypes.element.isRequired,
+  name: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  validateEdit: PropTypes.func.isRequired,
 }
 
 export default List

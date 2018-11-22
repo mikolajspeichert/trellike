@@ -3,9 +3,13 @@ import { createAction } from '../../store/actions'
 
 const actions = {
   ADD_TASK: 'TASKS/ADD',
+  UPDATE_TASK: 'TASKS/UPDATE',
 }
 
-const actionAddTask = (title, description, listId) =>
-  createAction(actions.ADD_TASK, { id: uuid(), title, description, listId })
+const actionAddTask = (listId, values) =>
+  createAction(actions.ADD_TASK, { id: uuid(), listId, ...values })
 
-export { actions, actionAddTask }
+const actionUpdateTask = (id, values) =>
+  createAction(actions.UPDATE_TASK, { id, ...values })
+
+export { actions, actionAddTask, actionUpdateTask }

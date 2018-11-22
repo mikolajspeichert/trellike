@@ -6,6 +6,7 @@ const colors = {
   dirtyWhite: '#F5F5ED',
   lightBlack: '#1f1f1f',
   gray: '#aEaEaE',
+  red: 'red',
 }
 
 const GlobalStyles = createGlobalStyle`

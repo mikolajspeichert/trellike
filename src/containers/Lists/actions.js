@@ -3,9 +3,13 @@ import { createAction } from '../../store/actions'
 
 const actions = {
   ADD_LIST: 'LISTS/ADD',
+  UPDATE_LIST: 'LISTS/UPDATE',
 }
 
 const actionAddList = name =>
   createAction(actions.ADD_LIST, { id: uuid(), name })
 
-export { actions, actionAddList }
+const actionUpdateListName = (id, name) =>
+  createAction(actions.UPDATE_LIST, { id, name })
+
+export { actions, actionAddList, actionUpdateListName }
