@@ -2,6 +2,7 @@
   "name": "trellike",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://mikolajspeichert.github.io/trellike/",
   "dependencies": {
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
@@ -29,6 +30,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
+    "gh-pages": "^2.0.1",
     "jest": "^23.6.0",
     "prettier": "^1.14.2"
   },
@@ -36,7 +38,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "jest": {
     "collectCoverageFrom": [
