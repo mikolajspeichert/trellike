@@ -10,6 +10,8 @@ const texts = {
   ButtonOK: '✓',
   ButtonDecline: '✕',
   ButtonEdit: 'edit',
+  AppNameFirstPart: 'Trel',
+  AppNameSecondPart: 'like',
 }
 
 export { texts }

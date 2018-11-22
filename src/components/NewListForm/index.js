@@ -45,7 +45,11 @@ const NewListForm = ({ onConfirm, validate: validateFunc }) => {
             }}>
             {texts.ButtonOK}
           </NewListButton>
-          <NewListButton onClick={() => reset() && setFocused(false)}>
+          <NewListButton
+            onClick={() => {
+              setFocused(false)
+              reset()
+            }}>
             {texts.ButtonDecline}
           </NewListButton>
         </ButtonsContainer>

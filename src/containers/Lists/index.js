@@ -12,8 +12,8 @@ import { actionAddList, actionUpdateListName } from './actions'
 const Container = styled.div`
   display: flex;
   align-items: flex-start;
-  min-height: 100vh;
   overflow-x: scroll;
+  height: calc(100vh - 6.5em);
 `
 
 const withConnect = connect(
@@ -31,26 +31,23 @@ const validateListName = value => {
   return null
 }
 
-const Lists = withConnect(({ lists, addNewList, updateListName }) => {
-  console.log(lists)
-  return (
-    <Container>
-      {Object.keys(lists).map(id => {
-        const { name, tasks } = lists[id]
-        return (
-          <List
-            name={name}
-            key={id}
-            onUpdate={newName => updateListName(id, newName)}
-            validateEdit={validateListName}>
-            <Tasks items={tasks} listId={id} />
-          </List>
-        )
-      })}
-      <NewListForm onConfirm={addNewList} validate={validateListName} />
-    </Container>
-  )
-})
+const Lists = withConnect(({ lists, addNewList, updateListName }) => (
+  <Container>
+    {Object.keys(lists).map(id => {
+      const { name, tasks } = lists[id]
+      return (
+        <List
+          name={name}
+          key={id}
+          onUpdate={newName => updateListName(id, newName)}
+          validateEdit={validateListName}>
+          <Tasks items={tasks} listId={id} />
+        </List>
+      )
+    })}
+    <NewListForm onConfirm={addNewList} validate={validateListName} />
+  </Container>
+))
 
 export { default as ListsReducer } from './reducer'
 export { validateListName }
